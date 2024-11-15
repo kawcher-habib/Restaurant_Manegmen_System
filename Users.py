@@ -68,10 +68,29 @@ class Menu:
             print("Item Deleted")
         else:
             print("Item not found")
+    def show_menu(self):
+        print("*******Menu********")
+        print(f"Name\tprice\tquantity")
+        for item in self.items:
+            print(f"{item.name}\t{item.price}\t{item.quantity}")
+
+class FoodItem:
+    def __init__(self, name, price, quantity):
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+    
 
 
-employeeOne = Admin("Habib", "habib@gmail.com", 975349394, "Bashundara")
+mn = Menu()
+item = FoodItem("Pizza", 25.09, 10)
+mn.add_menu_item(item)
 
-employeeOne.add_employee("kawsar habib", "kawsar@gmail.com", 9866879989, "Dhaka Bashundara", 20, "Chef", 100000)
+mn.show_menu()
 
-employeeOne.show_employee_list()
+
+# employeeOne = Admin("Habib", "habib@gmail.com", 975349394, "Bashundara")
+
+# employeeOne.add_employee("kawsar habib", "kawsar@gmail.com", 9866879989, "Dhaka Bashundara", 20, "Chef", 100000)
+
+# employeeOne.show_employee_list()

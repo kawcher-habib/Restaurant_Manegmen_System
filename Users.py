@@ -11,6 +11,47 @@ class User(ABC):
         self.phone = phone
         self.address = address
     
+class Customer(User):
+    def __init__(self, name, email, phone, address):
+        super().__init__(name, email, phone, address)
+        self.cart = None
+    
+    def view_menu(self, restaurant):
+        restaurant.menu.show_menu()
+    
+    def add_to_cart(self, restaurant, item_name):
+        item = restaurant.menu.find_item(item_name)
+        if item:
+            pass
+        else:
+            print("Item not found")
+
+    def view_cart(self):
+        print(***View Cart***)
+        print("Name\tPrice\tQuantity")
+        for item, quantity in self.cart.items.items():
+            print(f"{item.name}\t{item.price}\t{quantity}")
+            print(f"Total Price : {self.cart.total_price}")
+
+ class Order:
+    def __init__(self):
+        self.items = {}
+
+    def add_item(self, item):
+        if item in self.items:
+            self.items[item] += item.quantity
+        else:
+            self.items[item] = item.quantity
+    def remove(self, item):
+        if item in self.items:
+            del self.items[item]
+
+    def total_price(self):
+        return sum(item.price * quantity for item,quantity in self.items.items())     
+
+    def clear(self):
+        self.items = {}      
+
 
 class Employee(User):
     def __init__(self, name, email, phone, address, age, designation, salary):
@@ -31,6 +72,12 @@ class Admin(User):
     
     def show_employee_list(self, restaurant):
         restaurant.view_employee()
+    
+    def add_new_item(self, restaurant, item):
+        restaurant.menu.add_menu_item(item)
+    
+    def remove_item(self, restaurant, item):
+        restaurant.menu.remove_item(item)
        
 
 class Restaurant:
@@ -38,6 +85,7 @@ class Restaurant:
     def __init__(self, name):
         self.name = name
         self.employees = []
+        self.menu = FoodItem()
 
     def add_employee(self, employee):
         self.employee.append(employee)
@@ -88,9 +136,3 @@ mn.add_menu_item(item)
 
 mn.show_menu()
 
-
-# employeeOne = Admin("Habib", "habib@gmail.com", 975349394, "Bashundara")
-
-# employeeOne.add_employee("kawsar habib", "kawsar@gmail.com", 9866879989, "Dhaka Bashundara", 20, "Chef", 100000)
-
-# employeeOne.show_employee_list()

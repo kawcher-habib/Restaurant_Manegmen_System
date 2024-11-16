@@ -14,26 +14,34 @@ class User(ABC):
 class Customer(User):
     def __init__(self, name, email, phone, address):
         super().__init__(name, email, phone, address)
-        self.cart = None
+        self.cart = Order()
     
     def view_menu(self, restaurant):
         restaurant.menu.show_menu()
     
-    def add_to_cart(self, restaurant, item_name):
+    def add_to_cart(self, restaurant, item_name, quantity):
         item = restaurant.menu.find_item(item_name)
         if item:
-            pass
+            if quantity > item.quantity:
+                print("Item quantity exceeded")
+            else:
+                item.quantity = quantity
+                self.cart.add_item(item)
+                print("Item Added")
+
         else:
             print("Item not found")
 
     def view_cart(self):
-        print(***View Cart***)
+        print("***View Cart***")
         print("Name\tPrice\tQuantity")
         for item, quantity in self.cart.items.items():
             print(f"{item.name}\t{item.price}\t{quantity}")
             print(f"Total Price : {self.cart.total_price}")
 
- class Order:
+
+class Order:
+
     def __init__(self):
         self.items = {}
 
@@ -45,7 +53,7 @@ class Customer(User):
     def remove(self, item):
         if item in self.items:
             del self.items[item]
-
+    @property
     def total_price(self):
         return sum(item.price * quantity for item,quantity in self.items.items())     
 
@@ -85,7 +93,7 @@ class Restaurant:
     def __init__(self, name):
         self.name = name
         self.employees = []
-        self.menu = FoodItem()
+        self.menu = Menu()
 
     def add_employee(self, employee):
         self.employee.append(employee)
@@ -129,10 +137,23 @@ class FoodItem:
         self.quantity = quantity
     
 
-
+kh_res = Restaurant("Kh Restaurant")
 mn = Menu()
 item = FoodItem("Pizza", 25.09, 10)
+item2 = FoodItem("Burger", 10, 50)
+admin = Admin("Habib", "kawsar@gmial.com", 87549359, "Bashundara r/a")
+admin.add_new_item(kh_res, item)
+admin.add_new_item(kh_res, item2)
 mn.add_menu_item(item)
+mn.add_menu_item(item2)
 
 mn.show_menu()
+
+customer1 = Customer("Kawsar habib", "habib@gmail.com", 359485, "Dhaka")
+customer1.view_menu(kh_res)
+
+item_name = input("Enter item Name : ")
+item_quantity = int(input("Enter item quantity : "))
+customer1.add_to_cart(kh_res,item_name, item_quantity)
+customer1.view_cart()
 
